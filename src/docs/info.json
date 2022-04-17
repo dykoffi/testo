@@ -9,11 +9,41 @@
             "url": "https://www.linkedin.com/in/edy-koffi-948494192/"
         }
     },
-    "definitions": {},
-    "inputs": {},
-    "additionnalsInputs": {},
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id_": {
+                    "type": "integer"
+                },
+                "nom": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "inputs": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "nom": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "additionnalsInputs": {
+        "User": {
+            "type": "object",
+            "properties": {}
+        }
+    },
     "components": {
-        "schemas": {},
+        "schemas": {
+            "User": {
+                "$ref": "#/definitions/User"
+            }
+        },
         "responses": {
             "ExampleError": {
                 "content": {

@@ -7,6 +7,7 @@ import swaggerDocument from "../docs/_index";
 import prometheus from "../utils/prometheus";
 
 
+app.use("/user", require("../modules/user/user.controller.ts")); 
 app.use("/metrics", async (
     req: express.Request,
     res: express.Response,
