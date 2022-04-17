@@ -35,18 +35,21 @@ jobs:
 
       ####################### BUILD PROJECT ###########################
 
-      - restore_cache_cmd
-      - run: yarn install
-      - save_cache_cmd
-      - run: npx cqx build
+      - restore_cache_yarn
       - run:
-          name: Update production database
-          command: |
-            echo "DATABASE_URL=${DATABASE_URL}" > .env
-            npx prisma migrate deploy
+          name: Install dependencies
+          command: yarn install
+      - save_cache_yarn
+      - run:
+          name: Build project
+          command: yarn build
+      - run: cp Dockerfile-circleci build/
+      - run:
+          name: Building docker Image
+          command: docker build
+            -t ${GOOGLE_COMPUTE_REGION}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION}
+            -f Dockerfile-circleci .
           working_directory: build
-      - run: yarn install --prod
-      - run: cp -r ./node_modules build/node_modules
 
       ####################### Initialize gcloud CLI ###########################
 
@@ -54,17 +57,28 @@ jobs:
           name: Initialize gcloud CLI to connect to Google cloud
           command: |
             echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            gcloud auth configure-docker ${GOOGLE_COMPUTE_ZONE}-${REGISTRY_URL}
-            gcloud --quiet config set project $GOOGLE_PROJECT_ID
+
+      - run: gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+      - run: gcloud auth configure-docker ${GOOGLE_COMPUTE_REGION}-${REGISTRY_URL}
+      - run: gcloud --quiet config set project $GOOGLE_PROJECT_ID
 
       ####################### BUILD & DEPOLY DOCKER IMAGE ###########################
 
-      - run: docker build -t ${GOOGLE_COMPUTE_ZONE}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION} -f Dockerfile-circleci .
-      - run: docker push ${GOOGLE_COMPUTE_ZONE}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION}
-      - run: gcloud run deploy $SERVICE_NAME --image ${GOOGLE_COMPUTE_ZONE}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION} --port 80 --allow-unauthenticated --region $GOOGLE_COMPUTE_ZONE
+      - run:
+          name: push image to Artifact Registry
+          command: docker push ${GOOGLE_COMPUTE_REGION}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION}
+      - run:
+          name: Deploying container to Cloud Run service
+          command: gcloud run deploy $SERVICE_NAME
+            --image ${GOOGLE_COMPUTE_REGION}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION}
+            --port 3000
+            --region $GOOGLE_COMPUTE_REGION
+            --allow-unauthenticated
 
 workflows:
   deploy:
     jobs:
-      - build_deploy_on_cloud_run
+      - build_deploy_on_cloud_run:
+          context:
+            - Gcloud
+            - cqx

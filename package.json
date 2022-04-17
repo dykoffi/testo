@@ -79,7 +79,7 @@
         "url": "git+https://github.com/dykoffi/testo.git"
     },
     "bugs": {
-        "url": "https://github.com/dykoffi/testo/issues"
+        "url": "git+https://github.com/dykoffi/testo/issues"
     },
     "homepage": "git+https://github.com/dykoffi/testo#readme",
     "license": "MIT"
