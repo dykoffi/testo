@@ -38,12 +38,30 @@ jobs:
       - restore_cache_yarn
       - run:
           name: Install dependencies
-          command: yarn install
+          command: |
+            yarn install
       - save_cache_yarn
       - run:
           name: Build project
-          command: yarn build
-      - run: cp Dockerfile-circleci build/
+          command: |
+            npx cqx build
+      - run:
+          name: Enable Google Storage Key
+          command: echo $GCLOUD_STORAGE_KEY > ./build/.cqx/keys/gs.json
+      - run: yarn install --prod
+      - run:
+          name: Copy file in built project
+          command: |
+            cp -r ./node_modules build/node_modules
+            cp Dockerfile-circleci build/
+      - run:
+          name: Update production database
+          command: |
+            echo "DATABASE_URL=${DATABASE_URL}" > .env &
+            npx prisma migrate deploy &
+            npx prisma generate &
+          working_directory: build
+
       - run:
           name: Building docker Image
           command: docker build
@@ -71,7 +89,7 @@ jobs:
           name: Deploying container to Cloud Run service
           command: gcloud run deploy $SERVICE_NAME
             --image ${GOOGLE_COMPUTE_REGION}-${REGISTRY_URL}/${GOOGLE_PROJECT_ID}/${REPO}/${SERVICE_NAME}:${VERSION}
-            --port 3000
+            --port 80
             --region $GOOGLE_COMPUTE_REGION
             --allow-unauthenticated
 
