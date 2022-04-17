@@ -8,7 +8,7 @@ executors:
       VERSION: 1.0.0
       REGISTRY_URL: docker.pkg.dev
       REPO: testo
-      GOOGLE_COMPUTE_ZONE: europe-north1
+      GOOGLE_COMPUTE_REGION: europe-north1
       GOOGLE_PROJECT_ID: audiosetrecorder-2022
       SERVICE_NAME: testo
 
