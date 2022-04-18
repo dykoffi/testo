@@ -1,6 +1,9 @@
 import express from "express";
 import PTypes from "../../configs/db/types"
+import checkDTO from "../../middlewares/checkDTO"; 
+
 import userService from "./user.service"
+import { createUser, updateUser } from "./user.dto";  
 
 const router: express.Router = require("express").Router();
 const user = new userService();
@@ -14,7 +17,7 @@ router
      * @route POST /user
      * @access public
      */
-
+     .use(checkDTO(createUser))
     .post("/", async (req: express.Request, res: express.Response) => {
 
         user.addOne(req.body)
@@ -67,7 +70,7 @@ router
     * @route PUT /user/id
     * @access public
     */
-
+     .use(checkDTO(updateUser))
     .put("/:id", async (req: express.Request, res: express.Response) => {
 
         user.updateById(Number(req.params.id), req.body)
