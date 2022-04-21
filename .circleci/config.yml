@@ -36,6 +36,8 @@ jobs:
       ####################### BUILD PROJECT ###########################
 
       - restore_cache_yarn
+      - store_test_results:
+          path: clover.xml
       - run:
           name: Install dependencies
           command: |
