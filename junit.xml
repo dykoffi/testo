@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="22" failures="0" errors="0" time="13.31">
+  <testsuite name="Home routes tester" errors="0" failures="0" skipped="0" timestamp="2022-04-21T01:17:36" time="4.115" tests="1">
+    <testcase classname="Home routes tester /GET get test" name="Home routes tester /GET get test" time="0.042">
+    </testcase>
+  </testsuite>
+  <testsuite name="user routes tester" errors="0" failures="0" skipped="0" timestamp="2022-04-21T01:17:36" time="4.363" tests="6">
+    <testcase classname="user routes tester /POST Create new user Try with expected data" name="user routes tester /POST Create new user Try with expected data" time="0.192">
+    </testcase>
+    <testcase classname="user routes tester /POST Create new user Send false data" name="user routes tester /POST Create new user Send false data" time="0.022">
+    </testcase>
+    <testcase classname="user routes tester /GET User Try to get all user" name="user routes tester /GET User Try to get all user" time="0.015">
+    </testcase>
+    <testcase classname="user routes tester /GET User /GET/id Show specify user" name="user routes tester /GET User /GET/id Show specify user" time="0.008">
+    </testcase>
+    <testcase classname="user routes tester /GET User /GET/id Try to get user xho not exist" name="user routes tester /GET User /GET/id Try to get user xho not exist" time="0.008">
+    </testcase>
+    <testcase classname="user routes tester /GET User /GET/id Try with unexpected id" name="user routes tester /GET User /GET/id Try with unexpected id" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="sound routes tester" errors="0" failures="0" skipped="0" timestamp="2022-04-21T01:17:36" time="9.892" tests="15">
+    <testcase classname="sound routes tester User Create user and get token" name="sound routes tester User Create user and get token" time="0.186">
+    </testcase>
+    <testcase classname="sound routes tester User User try to get new audio" name="sound routes tester User User try to get new audio" time="0.05">
+    </testcase>
+    <testcase classname="sound routes tester User User try to get new audio again" name="sound routes tester User User try to get new audio again" time="0.021">
+    </testcase>
+    <testcase classname="sound routes tester User User try to get new audio with not exist user" name="sound routes tester User User try to get new audio with not exist user" time="0.033">
+    </testcase>
+    <testcase classname="sound routes tester User Count user recorded sound" name="sound routes tester User Count user recorded sound" time="0.019">
+    </testcase>
+    <testcase classname="sound routes tester User Count user recorded sound with unexpected userID" name="sound routes tester User Count user recorded sound with unexpected userID" time="0.015">
+    </testcase>
+    <testcase classname="sound routes tester / Try to get all audios Should return all audios with 200 code status" name="sound routes tester / Try to get all audios Should return all audios with 200 code status" time="0.044">
+    </testcase>
+    <testcase classname="sound routes tester Send sound /POST Send recorded audio" name="sound routes tester Send sound /POST Send recorded audio" time="3.257">
+    </testcase>
+    <testcase classname="sound routes tester Send sound /POST without file" name="sound routes tester Send sound /POST without file" time="0.027">
+    </testcase>
+    <testcase classname="sound routes tester Send sound /POST with unexpected soundID" name="sound routes tester Send sound /POST with unexpected soundID" time="2.082">
+    </testcase>
+    <testcase classname="sound routes tester Sound counter Count all unrecorded audios" name="sound routes tester Sound counter Count all unrecorded audios" time="0.02">
+    </testcase>
+    <testcase classname="sound routes tester Sound counter Get all recorded audios" name="sound routes tester Sound counter Get all recorded audios" time="0.02">
+    </testcase>
+    <testcase classname="sound routes tester Sound counter /GET/id get specify sound" name="sound routes tester Sound counter /GET/id get specify sound" time="0.01">
+    </testcase>
+    <testcase classname="sound routes tester Sound counter /GET/id get specify sound with unexpected id" name="sound routes tester Sound counter /GET/id get specify sound with unexpected id" time="0.009">
+    </testcase>
+    <testcase classname="sound routes tester Sound counter /GET/id get specify sound with id wich not exist" name="sound routes tester Sound counter /GET/id get specify sound with id wich not exist" time="0.008">
+    </testcase>
+  </testsuite>
+</testsuites>
