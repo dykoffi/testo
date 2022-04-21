@@ -43,7 +43,7 @@ jobs:
           command: |
             yarn install
       - save_cache_yarn
-      - run:
+      - run: 
           name: Build project
           command: |
             npx cqx build
